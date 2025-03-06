@@ -18,6 +18,10 @@ export type PaginatedResponse<TData> = {
   nextPage: number | null
 }
 
+export type SuccessResponse = {
+  success: boolean
+}
+
 export type PaginatedRequestParams = {
   page: number | null
 }

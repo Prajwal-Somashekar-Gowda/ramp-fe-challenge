@@ -3,6 +3,7 @@ import {
   PaginatedResponse,
   RequestByEmployeeParams,
   SetTransactionApprovalParams,
+  SuccessResponse,
   Transaction,
   Employee,
 } from "./types"
@@ -42,19 +43,29 @@ export const getTransactionsPaginated = ({
 export const getTransactionsByEmployee = ({ employeeId }: RequestByEmployeeParams) => {
   if (!employeeId) {
     throw new Error("Employee id cannot be empty")
+
   }
 
   return data.transactions.filter((transaction) => transaction.employee.id === employeeId)
 }
 
-export const setTransactionApproval = ({ transactionId, value }: SetTransactionApprovalParams): void => {
+
+
+export const setTransactionApproval = ({
+  transactionId,
+  value,
+
+}: SetTransactionApprovalParams): SuccessResponse => {
   const transaction = data.transactions.find(
     (currentTransaction) => currentTransaction.id === transactionId
-  )
-
-  if (!transaction) {
-    throw new Error("Invalid transaction to approve")
+  
+    )
+  
+    if (transaction) {
+    transaction.approved = value
+    return { success: true }
+  
   }
 
-  transaction.approved = value
+  return { success: false }
 }
